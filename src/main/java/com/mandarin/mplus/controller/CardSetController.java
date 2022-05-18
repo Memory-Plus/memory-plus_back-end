@@ -46,4 +46,17 @@ public class CardSetController {
 
         return ResponseEntity.ok().body(response);
     }
+
+    @PutMapping("/{cardSetId}")
+    public ResponseEntity<?> updateCardSet(@PathVariable Long cardSetId, @RequestBody CardSetDTO dto) {
+        CardSet cardSet = CardSetDTO.toEntity(dto);
+
+        List<CardSet> entities = cardSetService.update(cardSetId, cardSet);
+
+        List<CardSetDTO> dtos = entities.stream().map(CardSetDTO::new).collect(Collectors.toList());
+
+        ResponseDTO<CardSetDTO> response = ResponseDTO.<CardSetDTO>builder().data(dtos).build();
+
+        return ResponseEntity.ok().body(response);
+    }
 }
