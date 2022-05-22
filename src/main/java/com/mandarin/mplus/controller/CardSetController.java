@@ -59,4 +59,19 @@ public class CardSetController {
 
         return ResponseEntity.ok().body(response);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteCardSet(@PathVariable Long cardSetId) {
+
+        try {
+            List<CardSet> entities = cardSetService.delete(cardSetId);
+            List<CardSetDTO> dtos = entities.stream().map(CardSetDTO::new).collect(Collectors.toList());
+            ResponseDTO<CardSetDTO> response = ResponseDTO.<CardSetDTO>builder().data(dtos).build();
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDTO<CardSetDTO> response = ResponseDTO.<CardSetDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }
