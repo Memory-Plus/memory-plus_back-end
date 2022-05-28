@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CardSetRepository extends JpaRepository<CardSet, Long> {
     List<CardSet> findByCardSetCreator(String cardSetCreator);
+    List<CardSet> findByCardSetTitleContains(String search);
 }
