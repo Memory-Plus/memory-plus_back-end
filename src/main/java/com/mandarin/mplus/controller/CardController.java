@@ -1,6 +1,7 @@
 package com.mandarin.mplus.controller;
 
 import com.mandarin.mplus.dto.CardDTO;
+import com.mandarin.mplus.dto.CardSetDetailDTO;
 import com.mandarin.mplus.dto.ResponseDTO;
 import com.mandarin.mplus.model.Card;
 import com.mandarin.mplus.model.CardSet;
@@ -30,11 +31,9 @@ public class CardController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        List<Card> entities = cardSet.getCardList();
-        List<CardDTO> dtos = entities.stream().map(CardDTO::new).collect(Collectors.toList());
-        ResponseDTO<CardDTO> response = ResponseDTO.<CardDTO>builder().data(dtos).build();
+        CardSetDetailDTO dto = new CardSetDetailDTO(cardSet);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping("/{cardSetId}")
