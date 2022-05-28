@@ -10,18 +10,19 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CardDTO {
 
-    private Long id;
+    private Long cardId;
     private String cardTitle;
     private String cardContent;
 
     public CardDTO(final Card card) {
+        this.cardId = card.getId();
         this.cardTitle = card.getCardTitle();
         this.cardContent = card.getCardContent();
     }
 
     public static Card toEntity(final CardDTO dto) {
         return Card.builder()
-                .id(dto.getId())
+                .id(dto.getCardId())
                 .cardTitle(dto.getCardTitle())
                 .cardContent(dto.getCardContent())
                 .build();

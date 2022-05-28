@@ -1,17 +1,17 @@
 package com.mandarin.mplus.controller;
 
+import com.mandarin.mplus.dto.CardDTO;
 import com.mandarin.mplus.dto.ResponseDTO;
+import com.mandarin.mplus.model.Card;
 import com.mandarin.mplus.model.CardSet;
 import com.mandarin.mplus.persistence.CardSetRepository;
+import com.mandarin.mplus.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cardset")
@@ -29,9 +29,13 @@ public class CardController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        List<CardSet> dtos = new ArrayList<>();
-        dtos.add(cardSet);
-        ResponseDTO<CardSet> response = ResponseDTO.<CardSet>builder().data(dtos).build();
+        List<Card> entities = cardSet.getCardList();
+        List<CardDTO> dtos = entities.stream().map(CardDTO::new).collect(Collectors.toList());
+        ResponseDTO<CardDTO> response = ResponseDTO.<CardDTO>builder().data(dtos).build();
+
+        return ResponseEntity.ok().body(response);
+    }
+
 
         return ResponseEntity.ok().body(response);
     }
