@@ -52,7 +52,7 @@ public class CardController {
     }
 
     @PutMapping
-    public ResponseEntity<?> createCard(@RequestBody CardDTO dto) {
+    public ResponseEntity<?> updateCard(@RequestBody CardDTO dto) {
         Card card = CardDTO.toEntity(dto);
 
         CardSet cardSet = cardService.update(card);
