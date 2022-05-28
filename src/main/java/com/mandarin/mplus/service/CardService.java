@@ -22,7 +22,7 @@ public class CardService {
         CardSet cardSet = cardSetRepository.findById(cardSetId).get();
         card.setCardSet(cardSet);
 
-        Card savedCard = cardRepository.save(card);
+        cardRepository.save(card);
 
         return cardSet;
     }
