@@ -17,6 +17,15 @@ public class CardSetService {
 
     private final CardSetRepository cardSetRepository;
 
+    public List<CardSet> retrieve(String search) {
+
+        if (search == null) {
+            return cardSetRepository.findAll();
+        }
+
+        return cardSetRepository.findByCardSetTitleContains(search);
+    }
+
     public List<CardSet> create(final CardSet cardSet) {
         cardSetRepository.save(cardSet);
         return cardSetRepository.findByCardSetCreator(cardSet.getCardSetCreator());

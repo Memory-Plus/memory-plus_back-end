@@ -3,7 +3,6 @@ package com.mandarin.mplus.controller;
 import com.mandarin.mplus.dto.CardSetDTO;
 import com.mandarin.mplus.dto.ResponseDTO;
 import com.mandarin.mplus.model.CardSet;
-import com.mandarin.mplus.persistence.CardSetRepository;
 import com.mandarin.mplus.service.CardSetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +17,11 @@ import java.util.stream.Collectors;
 public class CardSetController {
 
     private final CardSetService cardSetService;
-    private final CardSetRepository cardSetRepository;
 
     @GetMapping
-    public ResponseEntity<?>  retrieveAllList() {
+    public ResponseEntity<?>  retrieveList(@RequestParam(required = false) String search) {
 
-        List<CardSet> entities = cardSetRepository.findAll();
+        List<CardSet> entities = cardSetService.retrieve(search);
 
         List<CardSetDTO> dtos = entities.stream().map(CardSetDTO::new).collect(Collectors.toList());
 
@@ -47,11 +45,11 @@ public class CardSetController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PutMapping("/{cardSetId}")
-    public ResponseEntity<?> updateCardSet(@PathVariable Long cardSetId, @RequestBody CardSetDTO dto) {
+    @PutMapping()
+    public ResponseEntity<?> updateCardSet(@RequestBody CardSetDTO dto) {
         CardSet cardSet = CardSetDTO.toEntity(dto);
 
-        List<CardSet> entities = cardSetService.update(cardSetId, cardSet);
+        List<CardSet> entities = cardSetService.update(cardSet.getId(), cardSet);
 
         List<CardSetDTO> dtos = entities.stream().map(CardSetDTO::new).collect(Collectors.toList());
 
