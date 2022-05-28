@@ -1,5 +1,6 @@
 package com.mandarin.mplus.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,5 +24,6 @@ public class Card {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cardset_id")
+    @JsonManagedReference
     private CardSet cardSet;
 }

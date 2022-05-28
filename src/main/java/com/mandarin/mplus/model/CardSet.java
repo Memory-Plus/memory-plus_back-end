@@ -1,5 +1,6 @@
 package com.mandarin.mplus.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,5 +27,6 @@ public class CardSet {
     private String cardSetCreator;
 
     @OneToMany(mappedBy = "cardSet", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Card> cardList = new ArrayList<>();
 }
