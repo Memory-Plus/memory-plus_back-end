@@ -63,4 +63,18 @@ public class CardController {
 
         return ResponseEntity.ok().body(response);
     }
+
+    @DeleteMapping("/{cardId}")
+    public ResponseEntity<?> deleteCard(@PathVariable Long cardId) {
+        try {
+            List<Card> entities = cardService.delete(cardId);
+            List<CardDTO> dtos = entities.stream().map(CardDTO::new).collect(Collectors.toList());
+            ResponseDTO<CardDTO> response = ResponseDTO.<CardDTO>builder().data(dtos).build();
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDTO<CardDTO> response = ResponseDTO.<CardDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }
