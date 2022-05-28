@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CardController {
 
+    private final CardService cardService;
     private final CardSetRepository cardSetRepository;
 
     @GetMapping("/{cardSetId}")
@@ -36,6 +37,16 @@ public class CardController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PostMapping("/{cardSetId}")
+    public ResponseEntity<?> createCard(@PathVariable Long cardSetId, @RequestBody CardDTO dto) {
+        Card card = CardDTO.toEntity(dto);
+        card.setId(null);
+
+        CardSet cardSet = cardService.create(cardSetId, card);
+
+        List<Card> entities = cardSet.getCardList();
+        List<CardDTO> dtos = entities.stream().map(CardDTO::new).collect(Collectors.toList());
+        ResponseDTO<CardDTO> response = ResponseDTO.<CardDTO>builder().data(dtos).build();
 
         return ResponseEntity.ok().body(response);
     }
