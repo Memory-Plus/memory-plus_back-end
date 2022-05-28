@@ -26,4 +26,16 @@ public class CardService {
 
         return cardSet;
     }
+
+    @Transactional
+    public CardSet update(final Card card) {
+        Card entity = cardRepository.findById(card.getId()).get();
+
+        entity.setCardTitle(card.getCardTitle());
+        entity.setCardContent(card.getCardContent());
+
+        cardRepository.save(entity);
+
+        return entity.getCardSet();
+    }
 }

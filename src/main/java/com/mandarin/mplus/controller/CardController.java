@@ -50,4 +50,17 @@ public class CardController {
 
         return ResponseEntity.ok().body(response);
     }
+
+    @PutMapping
+    public ResponseEntity<?> createCard(@RequestBody CardDTO dto) {
+        Card card = CardDTO.toEntity(dto);
+
+        CardSet cardSet = cardService.update(card);
+
+        List<Card> entities = cardSet.getCardList();
+        List<CardDTO> dtos = entities.stream().map(CardDTO::new).collect(Collectors.toList());
+        ResponseDTO<CardDTO> response = ResponseDTO.<CardDTO>builder().data(dtos).build();
+
+        return ResponseEntity.ok().body(response);
+    }
 }
