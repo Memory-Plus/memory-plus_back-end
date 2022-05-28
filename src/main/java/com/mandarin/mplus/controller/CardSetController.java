@@ -60,7 +60,7 @@ public class CardSetController {
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{cardSetId}")
     public ResponseEntity<?> deleteCardSet(@PathVariable Long cardSetId) {
 
         try {
